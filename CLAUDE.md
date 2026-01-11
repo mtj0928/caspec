@@ -1,0 +1,158 @@
+# CASpec (Coding Agent Spec)
+
+CASpec is a CLI tool that unifies documentation management across different AI coding agent tools (Claude Code, Codex, etc.). It allows you to maintain a single source of truth (`CASPEC.md`) and automatically generates tool-specific documentation and configurations.
+
+## Why CASpec?
+
+Different AI coding agent tools use different documentation formats:
+- **Claude Code**: Uses `CLAUDE.md` for project guidance, supports skills and subagents
+- **Codex**: Uses `AGENTS.md` for agent guidance, supports skills only
+
+When using multiple tools on the same project, you end up duplicating content across multiple files. CASpec solves this by letting you write once and generate for all tools.
+
+## How It Works
+
+### 1. Single Source of Truth: CASPEC.md
+
+Write your project documentation in `CASPEC.md` at your project root. Use conditional blocks to specify tool-specific content:
+
+```markdown
+# My Project
+
+This content appears in all generated files.
+
+<!-- CASPEC:codex -->
+This content only appears in AGENTS.md (Codex)
+<!-- CASPEC -->
+
+<!-- CASPEC:claude -->
+This content only appears in CLAUDE.md (Claude Code)
+<!-- CASPEC -->
+```
+
+**Syntax Rules**:
+- `<!-- CASPEC:{TOOL} -->` starts a tool-specific block
+- `<!-- CASPEC -->` ends a tool-specific block
+- `{TOOL}` can be `codex` or `claude`
+- Content outside blocks appears in all generated files
+- Tool-specific blocks only appear in their respective outputs
+
+### 2. Skills and Subagents Auto-Expansion
+
+Place your skills and subagents in `.caspec/` directory. CASpec automatically expands them to the appropriate locations:
+
+```
+.caspec/
+├── skills/
+│   ├── MySkill/
+│   │   ├── SKILL.md
+│   │   ├── config.json
+│   │   └── helpers.sh
+│   └── AnotherSkill/
+│       └── SKILL.md
+└── subagents/
+    └── MyAgent/
+        └── AGENT.md
+```
+
+**Expansion Rules**:
+- `.caspec/skills/MySkill/` → `.codex/skills/MySkill/` (for Codex)
+- `.caspec/skills/MySkill/` → `.claude/skills/MySkill/` (for Claude Code)
+- `.caspec/subagents/MyAgent/` → `.claude/subagents/MyAgent/` (Claude Code only)
+
+All files within skill/subagent directories are copied, preserving the directory structure. You can also use `<!-- CASPEC:{TOOL} -->` syntax inside these files.
+
+**Note**: Subagents are Claude Code-specific, so they're only expanded for Claude Code, not Codex.
+
+## CLI Usage
+
+```bash
+# Generate for Codex
+$ caspec codex
+
+# Generate for Claude Code
+$ caspec claude
+```
+
+### Generated Files
+
+**For Codex** (`caspec codex`):
+- `AGENTS.md` (from CASPEC.md, with codex-specific blocks)
+- `.codex/skills/` (expanded from `.caspec/skills/`)
+
+**For Claude Code** (`caspec claude`):
+- `CLAUDE.md` (from CASPEC.md, with claude-specific blocks)
+- `.claude/skills/` (expanded from `.caspec/skills/`)
+- `.claude/subagents/` (expanded from `.caspec/subagents/`)
+
+## Example
+
+### Example CASPEC.md
+
+```markdown
+# My Awesome Project
+
+This project uses TypeScript and React. Follow the existing code style.
+
+## Building
+
+Run `npm run build` to build the project.
+
+<!-- CASPEC:codex -->
+## Codex Notes
+
+Use the `codex-test` skill to run tests.
+<!-- CASPEC -->
+
+<!-- CASPEC:claude -->
+## Claude Code Notes
+
+Use the `claude-test` skill to run tests.
+You can also use the `reviewer` subagent for code review.
+<!-- CASPEC -->
+```
+
+### Example Project Structure
+
+```
+my-project/
+├── CASPEC.md                   # Your source of truth
+├── CLAUDE.md                   # Generated - don't edit directly
+├── AGENTS.md                   # Generated - don't edit directly
+├── .caspec/
+│   ├── skills/
+│   │   └── test/
+│   │       └── SKILL.md
+│   └── subagents/
+│       └── reviewer/
+│           └── AGENT.md
+├── .claude/                    # Generated - don't edit directly
+│   ├── skills/
+│   │   └── test/
+│   │       └── SKILL.md
+│   └── subagents/
+│       └── reviewer/
+│           └── AGENT.md
+└── .codex/                     # Generated - don't edit directly
+    └── skills/
+        └── test/
+            └── SKILL.md
+```
+
+## Development
+
+```bash
+# Build the project
+swift build
+
+# Run the tool
+swift run caspec claude
+swift run caspec codex
+
+# Run tests
+swift test
+```
+
+---
+
+**Important**: Always edit `CASPEC.md` and files in `.caspec/`, not the generated files. Run `caspec` again after making changes to regenerate the outputs.
