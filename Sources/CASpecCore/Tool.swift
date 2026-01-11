@@ -42,9 +42,3 @@ extension Tool {
         subagentsFolderName: ".claude/subagents"
     )
 }
-
-extension Tool {
-    var caspecBlockStart: String {
-        CASPECFormat.blockStart(toolName: name)
-    }
-}
