@@ -4,20 +4,28 @@ import Foundation
 public protocol FileSystem {
     /// Returns true if a filesystem entry exists at the provided path.
     func fileExists(atPath: String) -> Bool
+
     /// Returns true if the URL points to a directory, throws if the entry is missing.
     func isDirectory(at url: URL) throws -> Bool
+
     /// Creates a directory at the given URL.
     func createDirectory(at url: URL, withIntermediateDirectories: Bool) throws
+
     /// Returns direct children of the given directory URL.
     func contentsOfDirectory(at url: URL) throws -> [URL]
+
     /// Removes the item at the given URL.
     func removeItem(at url: URL) throws
+
     /// Copies an item from the source URL to the destination URL.
     func copyItem(at sourceURL: URL, to destinationURL: URL) throws
+
     /// Reads raw data from the given URL.
     func readData(at url: URL) throws -> Data
+
     /// Reads a string from the given URL using the provided encoding.
     func readString(at url: URL, encoding: String.Encoding) throws -> String
+
     /// Writes a string to the given URL using the provided encoding.
     func writeString(_ string: String, to url: URL, atomically: Bool, encoding: String.Encoding) throws
 }
