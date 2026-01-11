@@ -107,8 +107,8 @@ struct CASpecGeneratorTests {
     }
 }
 
-fileprivate extension FileSystem {
-    func writeFile(path: URL, contents: String) throws {
+extension FileSystem {
+    fileprivate func writeFile(path: URL, contents: String) throws {
         try createDirectory(
             at: path.deletingLastPathComponent(),
             withIntermediateDirectories: true

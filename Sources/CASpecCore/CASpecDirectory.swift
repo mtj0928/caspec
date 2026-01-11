@@ -38,9 +38,9 @@ public struct CASpecDirectory: Sendable {
     }
 }
 
-public extension CASpecDirectory {
+extension CASpecDirectory {
     /// Tool-specific output paths derived from a CASpec project root.
-    struct ToolOutputs: Sendable {
+    public struct ToolOutputs: Sendable {
         /// The root URL of the CASpec project.
         public let rootPath: URL
 

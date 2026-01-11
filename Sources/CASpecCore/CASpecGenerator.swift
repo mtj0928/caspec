@@ -26,12 +26,12 @@ public struct CASpecGenerator {
     }
 }
 
-private extension CASpecGenerator {
-    func writeSpecOutput(_ contents: String, to outputs: CASpecDirectory.ToolOutputs) throws {
+extension CASpecGenerator {
+    fileprivate func writeSpecOutput(_ contents: String, to outputs: CASpecDirectory.ToolOutputs) throws {
         try fileSystem.writeString(contents, to: outputs.specFilePath, atomically: true, encoding: .utf8)
     }
 
-    func generateSkills(
+    fileprivate func generateSkills(
         from directory: CASpecDirectory,
         outputs: CASpecDirectory.ToolOutputs,
         tool: Tool
@@ -42,7 +42,7 @@ private extension CASpecGenerator {
         try copyDirectoryContents(from: sourcePath, to: destinationPath, tool: tool)
     }
 
-    func generateSubagents(
+    fileprivate func generateSubagents(
         from directory: CASpecDirectory,
         outputs: CASpecDirectory.ToolOutputs,
         tool: Tool
@@ -53,7 +53,7 @@ private extension CASpecGenerator {
         try copyDirectoryContents(from: sourcePath, to: destinationPath, tool: tool)
     }
 
-    func copyDirectoryContents(from sourcePath: URL, to destinationPath: URL, tool: Tool) throws {
+    fileprivate func copyDirectoryContents(from sourcePath: URL, to destinationPath: URL, tool: Tool) throws {
         if !fileSystem.fileExists(atPath: destinationPath.path) {
             try fileSystem.createDirectory(at: destinationPath, withIntermediateDirectories: true)
         }
@@ -70,7 +70,7 @@ private extension CASpecGenerator {
         }
     }
 
-    func writeFilteredFile(from sourcePath: URL, to destinationPath: URL, tool: Tool) throws {
+    fileprivate func writeFilteredFile(from sourcePath: URL, to destinationPath: URL, tool: Tool) throws {
         try fileSystem.createDirectory(
             at: destinationPath.deletingLastPathComponent(),
             withIntermediateDirectories: true
@@ -89,7 +89,7 @@ private extension CASpecGenerator {
         try fileSystem.copyItem(at: sourcePath, to: destinationPath)
     }
 
-    func filterContents(_ contents: String, tool: Tool) -> String {
+    fileprivate func filterContents(_ contents: String, tool: Tool) -> String {
         enum BlockState {
             case all
             case toolSpecific(String)

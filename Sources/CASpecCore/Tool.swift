@@ -25,9 +25,9 @@ public struct Tool: Hashable, Sendable {
     }
 }
 
-public extension Tool {
+extension Tool {
     /// Codex tool output (`AGENTS.md` and `.codex/`).
-    static let codex = Tool(
+    public static let codex = Tool(
         name: "codex",
         outputFileName: "AGENTS.md",
         skillsFolderName: ".codex/skills",
@@ -35,7 +35,7 @@ public extension Tool {
     )
 
     /// Claude Code output (`CLAUDE.md` and `.claude/`).
-    static let claude = Tool(
+    public static let claude = Tool(
         name: "claude",
         outputFileName: "CLAUDE.md",
         skillsFolderName: ".claude/skills",
