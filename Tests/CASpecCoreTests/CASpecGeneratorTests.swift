@@ -11,13 +11,10 @@ struct CASpecGeneratorTests {
             path: rootPath.appendingPathComponent("CASPEC.md"),
             contents: """
             # Title
-
             Shared
-
             <!-- CASPEC:codex -->
             Codex Only
             <!-- CASPEC -->
-
             <!-- CASPEC:claude -->
             Claude Only
             <!-- CASPEC -->
@@ -44,17 +41,22 @@ struct CASpecGeneratorTests {
             at: rootPath.appendingPathComponent("AGENTS.md"),
             encoding: .utf8
         )
-        #expect(agents.contains("Shared"))
-        #expect(agents.contains("Codex Only"))
-        #expect(!agents.contains("Claude Only"))
+        let expectedAgents = """
+        # Title
+        Shared
+        Codex Only
+        """
+        #expect(agents == expectedAgents)
 
         let skill = try fileSystem.readString(
             at: rootPath.appendingPathComponent(".codex/skills/test/SKILL.md"),
             encoding: .utf8
         )
-        #expect(skill.contains("Skill Shared"))
-        #expect(skill.contains("Skill Codex"))
-        #expect(!skill.contains("Skill Claude"))
+        let expectedSkill = """
+        Skill Shared
+        Skill Codex
+        """
+        #expect(skill == expectedSkill)
 
         #expect(!fileSystem.fileExists(
             atPath: rootPath.appendingPathComponent(".claude").path
@@ -94,9 +96,11 @@ struct CASpecGeneratorTests {
             at: rootPath.appendingPathComponent("CLAUDE.md"),
             encoding: .utf8
         )
-        #expect(claude.contains("Shared"))
-        #expect(claude.contains("Claude Only"))
-        #expect(!claude.contains("Codex Only"))
+        let expectedClaude = """
+        Shared
+        Claude Only
+        """
+        #expect(claude == expectedClaude)
 
         #expect(fileSystem.fileExists(
             atPath: rootPath.appendingPathComponent(".claude/skills/test/SKILL.md").path
