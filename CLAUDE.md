@@ -153,6 +153,11 @@ swift run caspec codex
 swift test
 ```
 
+## Workflow
+- [ ] Edit file
+- [ ] Add or update DocC based on the added or changed logic.
+- [ ] Run tests
+
 ---
 
 **Important**: Always edit `CASPEC.md` and files in `.caspec/`, not the generated files. Run `caspec` again after making changes to regenerate the outputs.
