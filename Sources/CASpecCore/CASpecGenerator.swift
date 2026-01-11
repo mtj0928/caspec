@@ -15,35 +15,41 @@ public struct CASpecGenerator {
     ///   - rootPath: The project root containing `CASPEC.md`.
     ///   - tool: The tool variant to generate.
     public func generate(in rootPath: URL, tool: Tool) throws {
-        let specPath = rootPath.appendingPathComponent("CASPEC.md")
-        let specContents = try String(contentsOf: specPath, encoding: .utf8)
+        let directory = CASpecDirectory(rootPath: rootPath)
+        let outputs = directory.outputs(for: tool)
+        let specContents = try String(contentsOf: directory.specFilePath, encoding: .utf8)
         let filteredSpec = filterContents(specContents, tool: tool)
-        try writeSpecOutput(filteredSpec, to: rootPath, tool: tool)
+        try writeSpecOutput(filteredSpec, to: outputs)
 
-        try generateSkills(from: rootPath, tool: tool)
-        try generateSubagents(from: rootPath, tool: tool)
+        try generateSkills(from: directory, outputs: outputs, tool: tool)
+        try generateSubagents(from: directory, outputs: outputs, tool: tool)
     }
 }
 
 private extension CASpecGenerator {
-    func writeSpecOutput(_ contents: String, to rootPath: URL, tool: Tool) throws {
-        let outputPath = rootPath.appendingPathComponent(tool.outputFileName)
-        try contents.write(to: outputPath, atomically: true, encoding: .utf8)
+    func writeSpecOutput(_ contents: String, to outputs: CASpecDirectory.ToolOutputs) throws {
+        try contents.write(to: outputs.specFilePath, atomically: true, encoding: .utf8)
     }
 
-    func generateSkills(from rootPath: URL, tool: Tool) throws {
-        let sourcePath = rootPath.appendingPathComponent(".caspec/skills")
+    func generateSkills(
+        from directory: CASpecDirectory,
+        outputs: CASpecDirectory.ToolOutputs,
+        tool: Tool
+    ) throws {
+        let sourcePath = directory.caspecSkillsPath
         guard fileManager.fileExists(atPath: sourcePath.path),
-              let destinationFolderName = tool.skillsFolderName else { return }
-        let destinationPath = rootPath.appendingPathComponent(destinationFolderName)
+              let destinationPath = outputs.skillsPath else { return }
         try copyDirectoryContents(from: sourcePath, to: destinationPath, tool: tool)
     }
 
-    func generateSubagents(from rootPath: URL, tool: Tool) throws {
-        let sourcePath = rootPath.appendingPathComponent(".caspec/subagents")
+    func generateSubagents(
+        from directory: CASpecDirectory,
+        outputs: CASpecDirectory.ToolOutputs,
+        tool: Tool
+    ) throws {
+        let sourcePath = directory.caspecSubagentsPath
         guard fileManager.fileExists(atPath: sourcePath.path),
-              let destinationFolderName = tool.subagentsFolderName else { return }
-        let destinationPath = rootPath.appendingPathComponent(destinationFolderName)
+              let destinationPath = outputs.subagentsPath else { return }
         try copyDirectoryContents(from: sourcePath, to: destinationPath, tool: tool)
     }
 
