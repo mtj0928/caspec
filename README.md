@@ -66,3 +66,10 @@ Fields:
 - `instructionsFile`: Generated file name
 - `skillsDirectory`: Destination for expanded skills (optional)
 - `subagentsDirectory`: Destination for expanded subagents (optional)
+
+## Add caspec outputs to .gitignore
+`generate-gitignore` prints gitignore entries for the tools you specify. Copy and paste the snippet below to append them to your `.gitignore`:
+
+```bash
+caspec generate-gitignore codex claude >> .gitignore
+```

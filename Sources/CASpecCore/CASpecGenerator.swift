@@ -33,7 +33,7 @@ extension CASpecGenerator {
         var errorDescription: String? {
             switch self {
             case let .nestedBlockStart(line, openTool, nestedTool):
-                return """
+                """
                 Nested CASPEC block start found at line \(line): \
                 '\(nestedTool)' started before closing '\(openTool)'.
                 """

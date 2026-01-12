@@ -75,6 +75,9 @@ $ caspec claude
 
 # Generate for a custom tool from .caspec.yml
 $ caspec custom_agent
+
+# Output gitignore entries for specific tools
+$ caspec generate-gitignore codex claude
 ```
 
 ### Custom Tools via .caspec.yml
