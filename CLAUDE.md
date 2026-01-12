@@ -84,18 +84,18 @@ Define or override tools in `.caspec.yml`. When a tool name matches a default, i
 tools:
   - name: codex
     instructionsFile: CUSTOM.md
-    skillsDirectoryName: .custom/skills
+    skillsDirectory: .custom/skills
   - name: custom_agent
     instructionsFile: CUSTOM_AGENT.md
-    skillsDirectoryName: .custom_agent/skills
-    subagentsDirectoryName: .custom_agent/subagents
+    skillsDirectory: .custom_agent/skills
+    subagentsDirectory: .custom_agent/subagents
 ```
 
 Fields:
 - `name`: Tool name used on the CLI and in `<!-- CASPEC:{TOOL} -->` blocks
 - `instructionsFile`: Generated file name
-- `skillsDirectoryName`: Destination for expanded skills (optional)
-- `subagentsDirectoryName`: Destination for expanded subagents (optional)
+- `skillsDirectory`: Destination for expanded skills (optional)
+- `subagentsDirectory`: Destination for expanded subagents (optional)
 
 ### Generated Files
 
