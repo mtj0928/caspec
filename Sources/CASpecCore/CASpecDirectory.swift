@@ -54,17 +54,17 @@ extension CASpecDirectory {
 
         /// The output path for the generated spec file (e.g. `AGENTS.md`).
         public var specFilePath: URL {
-            rootPath.appendingPathComponent(tool.outputFileName)
+            rootPath.appendingPathComponent(tool.instructionsFile)
         }
 
         /// The output path for generated skills, if applicable.
         public var skillsPath: URL? {
-            tool.skillsDirectoryName.map { rootPath.appendingPathComponent($0) }
+            tool.skillsDirectory.map { rootPath.appendingPathComponent($0) }
         }
 
         /// The output path for generated subagents, if applicable.
         public var subagentsPath: URL? {
-            tool.subagentsDirectoryName.map { rootPath.appendingPathComponent($0) }
+            tool.subagentsDirectory.map { rootPath.appendingPathComponent($0) }
         }
     }
 }
