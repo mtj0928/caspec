@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import CASpecCore
+@testable import AgentAdapterCore
 
 struct InMemoryFileSystemTests {
     @Test func createsReadsAndListsFiles() throws {

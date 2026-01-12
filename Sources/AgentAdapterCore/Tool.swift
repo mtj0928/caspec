@@ -1,6 +1,6 @@
-/// Supported tools for CASpec generation.
+/// Supported tools for AgentAdapter generation.
 public struct Tool: Hashable, Sendable, Codable {
-    /// Tool name used for CASPEC block filtering (e.g. "codex").
+    /// Tool name used for AGENT_ADAPTER block filtering (e.g. "codex").
     public let name: String
 
     /// Instructions file name (e.g. "AGENTS.md").
@@ -42,7 +42,7 @@ extension Tool {
         agentsDirectory: ".claude/agents"
     )
 
-    /// Default tools supported by CASpec.
+    /// Default tools supported by AgentAdapter.
     public static let defaults: [Tool] = [
         .codex,
         .claude

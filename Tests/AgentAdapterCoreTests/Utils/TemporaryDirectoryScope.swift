@@ -31,7 +31,7 @@ struct TemporaryDirectoryScope: TestTrait, TestScoping {
 
     private func makeTemporaryRoot() throws -> URL {
         let tempRoot = FileManager.default.temporaryDirectory
-            .appending(components: "CASpec", "tests-\(UUID().uuidString)")
+            .appending(components: "AgentAdapter", "tests-\(UUID().uuidString)")
         try FileManager.default.createDirectory(at: tempRoot, withIntermediateDirectories: true)
         return tempRoot
     }

@@ -1,8 +1,8 @@
 import Foundation
 import Testing
-@testable import CASpecCore
+@testable import AgentAdapterCore
 
-struct CASpecConfigurationTests {
+struct AgentAdapterConfigurationTests {
     @Test func loadsCustomToolsFromYaml() throws {
         let rootPath = URL(fileURLWithPath: "/root")
         let fileSystem = InMemoryFileSystem()
@@ -18,12 +18,12 @@ struct CASpecConfigurationTests {
                 skillsDirectory: .custom_agent/skills
                 agentsDirectory: .custom_agent/agents
             """,
-            to: rootPath.appendingPathComponent(".caspec.yml"),
+            to: rootPath.appendingPathComponent(".agent-adapter.yml"),
             atomically: true,
             encoding: .utf8
         )
 
-        let config = try CASpecConfiguration.load(from: rootPath, fileSystem: fileSystem)
+        let config = try AgentAdapterConfiguration.load(from: rootPath, fileSystem: fileSystem)
         let resolved = try #require(config?.resolvedTools())
 
         #expect(resolved["claude"] != nil)

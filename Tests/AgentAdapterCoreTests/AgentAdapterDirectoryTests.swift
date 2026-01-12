@@ -1,21 +1,21 @@
 import Foundation
 import Testing
-@testable import CASpecCore
+@testable import AgentAdapterCore
 
-struct CASpecDirectoryTests {
+struct AgentAdapterDirectoryTests {
     @Test func buildsSourcePaths() {
         let rootPath = URL(fileURLWithPath: "/root")
-        let directory = CASpecDirectory(rootPath: rootPath)
+        let directory = AgentAdapterDirectory(rootPath: rootPath)
 
-        #expect(directory.specFilePath == rootPath.appendingPathComponent("CASPEC.md"))
-        #expect(directory.caspecRootPath == rootPath.appendingPathComponent(".caspec"))
-        #expect(directory.caspecSkillsPath == rootPath.appendingPathComponent(".caspec/skills"))
-        #expect(directory.caspecAgentsPath == rootPath.appendingPathComponent(".caspec/agents"))
+        #expect(directory.specFilePath == rootPath.appendingPathComponent("AGENT_GUIDELINES.md"))
+        #expect(directory.agentAdapterRootPath == rootPath.appendingPathComponent("agent-adapter"))
+        #expect(directory.agentAdapterSkillsPath == rootPath.appendingPathComponent("agent-adapter/skills"))
+        #expect(directory.agentAdapterAgentsPath == rootPath.appendingPathComponent("agent-adapter/agents"))
     }
 
     @Test func buildsToolOutputPaths() {
         let rootPath = URL(fileURLWithPath: "/root")
-        let directory = CASpecDirectory(rootPath: rootPath)
+        let directory = AgentAdapterDirectory(rootPath: rootPath)
 
         let codexOutputs = directory.outputs(for: .codex)
         #expect(codexOutputs.specFilePath == rootPath.appendingPathComponent("AGENTS.md"))

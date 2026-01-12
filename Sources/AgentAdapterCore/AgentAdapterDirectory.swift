@@ -1,39 +1,39 @@
 import Foundation
 
-/// A directory layout helper for CASpec project paths.
-public struct CASpecDirectory: Sendable {
-    /// The root URL of the CASpec project.
+/// A directory layout helper for AgentAdapter project paths.
+public struct AgentAdapterDirectory: Sendable {
+    /// The root URL of the AgentAdapter project.
     public let rootPath: URL
 
     /// Creates a directory helper for the provided project root.
-    /// - Parameter rootPath: The project root containing `CASPEC.md`.
+    /// - Parameter rootPath: The project root containing `AGENT_GUIDELINES.md`.
     public init(rootPath: URL) {
         self.rootPath = rootPath
     }
 
-    /// The path to the main CASpec document (`CASPEC.md`).
+    /// The path to the main AgentAdapter document (`AGENT_GUIDELINES.md`).
     public var specFilePath: URL {
-        rootPath.appendingPathComponent("CASPEC.md")
+        rootPath.appendingPathComponent("AGENT_GUIDELINES.md")
     }
 
-    /// The path to the optional configuration file (`.caspec.yml`).
+    /// The path to the optional configuration file (`.agent-adapter.yml`).
     public var configFilePath: URL {
-        rootPath.appendingPathComponent(CASpecConfiguration.fileName)
+        rootPath.appendingPathComponent(AgentAdapterConfiguration.fileName)
     }
 
-    /// The path to the `.caspec` source directory.
-    public var caspecRootPath: URL {
-        rootPath.appendingPathComponent(".caspec")
+    /// The path to the `agent-adapter` source directory.
+    public var agentAdapterRootPath: URL {
+        rootPath.appendingPathComponent("agent-adapter")
     }
 
-    /// The path to the `.caspec/skills` source directory.
-    public var caspecSkillsPath: URL {
-        caspecRootPath.appendingPathComponent("skills")
+    /// The path to the `agent-adapter/skills` source directory.
+    public var agentAdapterSkillsPath: URL {
+        agentAdapterRootPath.appendingPathComponent("skills")
     }
 
-    /// The path to the `.caspec/agents` source directory.
-    public var caspecAgentsPath: URL {
-        caspecRootPath.appendingPathComponent("agents")
+    /// The path to the `agent-adapter/agents` source directory.
+    public var agentAdapterAgentsPath: URL {
+        agentAdapterRootPath.appendingPathComponent("agents")
     }
 
     /// Returns tool-specific output paths derived from the project root.
@@ -43,10 +43,10 @@ public struct CASpecDirectory: Sendable {
     }
 }
 
-extension CASpecDirectory {
-    /// Tool-specific output paths derived from a CASpec project root.
+extension AgentAdapterDirectory {
+    /// Tool-specific output paths derived from an AgentAdapter project root.
     public struct ToolOutputs: Sendable {
-        /// The root URL of the CASpec project.
+        /// The root URL of the AgentAdapter project.
         public let rootPath: URL
 
         /// The tool variant used for output paths.

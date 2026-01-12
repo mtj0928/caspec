@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import CASpecCore
+@testable import AgentAdapterCore
 
 struct FileManagerFileSystemTests {
     @Test(.temporaryDirectory) func createsReadsAndListsFiles() throws {

@@ -1,5 +1,5 @@
 import Foundation
-@testable import CASpecCore
+@testable import AgentAdapterCore
 
 final class InMemoryFileSystem: FileSystem {
     private enum Node {

@@ -2,10 +2,10 @@
 import PackageDescription
 
 let package = Package(
-    name: "CASpec",
+    name: "AgentAdapter",
     platforms: [.macOS(.v15)],
     products: [
-        .executable(name: "caspec", targets: ["caspec"])
+        .executable(name: "agent-adapter", targets: ["AgentAdapter"])
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-argument-parser.git", from: "1.2.0"),
@@ -13,22 +13,22 @@ let package = Package(
     ],
     targets: [
         .executableTarget(
-            name: "caspec",
+            name: "AgentAdapter",
             dependencies: [
-                "CASpecCore",
+                "AgentAdapterCore",
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),
             ]
         ),
         .target(
-            name: "CASpecCore",
+            name: "AgentAdapterCore",
             dependencies: [
                 .product(name: "Yams", package: "Yams")
             ]
         ),
         .testTarget(
-            name: "CASpecCoreTests",
+            name: "AgentAdapterCoreTests",
             dependencies: [
-                "CASpecCore"
+                "AgentAdapterCore"
             ]
         )
     ]

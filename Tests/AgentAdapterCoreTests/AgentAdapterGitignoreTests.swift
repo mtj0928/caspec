@@ -1,7 +1,7 @@
 import Testing
-@testable import CASpecCore
+@testable import AgentAdapterCore
 
-struct CASpecGitignoreTests {
+struct AgentAdapterGitignoreTests {
     @Test func renderGroupsEntriesWithToolComments() {
         let custom = Tool(
             name: "custom",
@@ -10,7 +10,7 @@ struct CASpecGitignoreTests {
             agentsDirectory: ".custom/agents"
         )
 
-        let output = CASpecGitignore.render(for: [custom, .claude])
+        let output = AgentAdapterGitignore.render(for: [custom, .claude])
 
         #expect(output == """
         # custom
@@ -26,7 +26,7 @@ struct CASpecGitignoreTests {
     }
 
     @Test func toolsForGitignoreUsesOnlyTargets() throws {
-        let config = CASpecConfiguration(tools: [
+        let config = AgentAdapterConfiguration(tools: [
             Tool(
                 name: "custom",
                 instructionsFile: "CUSTOM.md",
@@ -35,7 +35,7 @@ struct CASpecGitignoreTests {
             )
         ])
 
-        let tools = try CASpecGitignore.toolsForGitignore(
+        let tools = try AgentAdapterGitignore.toolsForGitignore(
             targetToolNames: ["codex"],
             config: config
         )
@@ -44,7 +44,7 @@ struct CASpecGitignoreTests {
     }
 
     @Test func toolsForGitignoreReturnsEmptyForNoTargets() throws {
-        let tools = try CASpecGitignore.toolsForGitignore(
+        let tools = try AgentAdapterGitignore.toolsForGitignore(
             targetToolNames: [],
             config: nil
         )
@@ -53,8 +53,8 @@ struct CASpecGitignoreTests {
     }
 
     @Test func toolsForGitignoreThrowsOnUnknownTargets() {
-        #expect(throws: CASpecGitignore.CASpecGitignoreError.self) {
-            try CASpecGitignore.toolsForGitignore(
+        #expect(throws: AgentAdapterGitignore.AgentAdapterGitignoreError.self) {
+            try AgentAdapterGitignore.toolsForGitignore(
                 targetToolNames: ["missing"],
                 config: nil
             )

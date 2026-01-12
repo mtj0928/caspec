@@ -1,8 +1,8 @@
 import Foundation
 import Yams
 
-/// Configuration stored in `.caspec.yml` for defining custom tools.
-public struct CASpecConfiguration: Sendable, Decodable {
+/// Configuration stored in `.agent-adapter.yml` for defining custom tools.
+public struct AgentAdapterConfiguration: Sendable, Decodable {
     /// Tool definitions provided by the configuration file.
     public let tools: [Tool]
 
@@ -12,17 +12,17 @@ public struct CASpecConfiguration: Sendable, Decodable {
     }
 }
 
-extension CASpecConfiguration {
+extension AgentAdapterConfiguration {
     /// The default configuration file name.
-    public static let fileName = ".caspec.yml"
+    public static let fileName = ".agent-adapter.yml"
 
     /// Loads configuration from the provided root path if a config file exists.
-    public static func load(from rootPath: URL, fileSystem: FileSystem) throws -> CASpecConfiguration? {
+    public static func load(from rootPath: URL, fileSystem: FileSystem) throws -> AgentAdapterConfiguration? {
         let configPath = rootPath.appendingPathComponent(fileName)
         guard fileSystem.fileExists(atPath: configPath.path) else { return nil }
         let contents = try fileSystem.readString(at: configPath, encoding: .utf8)
         let decoder = YAMLDecoder()
-        return try decoder.decode(CASpecConfiguration.self, from: contents)
+        return try decoder.decode(AgentAdapterConfiguration.self, from: contents)
     }
 
     /// Merges configuration tools with the provided defaults, overriding by name.

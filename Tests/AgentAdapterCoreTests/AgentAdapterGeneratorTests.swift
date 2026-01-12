@@ -1,40 +1,40 @@
 import Foundation
 import Testing
-@testable import CASpecCore
+@testable import AgentAdapterCore
 
-struct CASpecGeneratorTests {
+struct AgentAdapterGeneratorTests {
     @Test func generatesCodexOutputs() throws {
         let rootPath = URL(fileURLWithPath: "/root")
         let fileSystem = InMemoryFileSystem()
         try fileSystem.createDirectory(at: rootPath, withIntermediateDirectories: true)
         try fileSystem.writeFile(
-            path: rootPath.appendingPathComponent("CASPEC.md"),
+            path: rootPath.appendingPathComponent("AGENT_GUIDELINES.md"),
             contents: """
             # Title
             Shared
-            <!-- CASPEC:codex -->
+            <!-- AGENT_ADAPTER:codex -->
             Codex Only
-            <!-- CASPEC -->
-            <!-- CASPEC:claude -->
+            <!-- AGENT_ADAPTER -->
+            <!-- AGENT_ADAPTER:claude -->
             Claude Only
-            <!-- CASPEC -->
+            <!-- AGENT_ADAPTER -->
             """
         )
 
         try fileSystem.writeFile(
-            path: rootPath.appendingPathComponent(".caspec/skills/test/SKILL.md"),
+            path: rootPath.appendingPathComponent("agent-adapter/skills/test/SKILL.md"),
             contents: """
             Skill Shared
-            <!-- CASPEC:codex -->
+            <!-- AGENT_ADAPTER:codex -->
             Skill Codex
-            <!-- CASPEC -->
-            <!-- CASPEC:claude -->
+            <!-- AGENT_ADAPTER -->
+            <!-- AGENT_ADAPTER:claude -->
             Skill Claude
-            <!-- CASPEC -->
+            <!-- AGENT_ADAPTER -->
             """
         )
 
-        let generator = CASpecGenerator(fileSystem: fileSystem)
+        let generator = AgentAdapterGenerator(fileSystem: fileSystem)
         try generator.generate(in: rootPath, tool: .codex)
 
         let agents = try fileSystem.readString(
@@ -68,28 +68,28 @@ struct CASpecGeneratorTests {
         let fileSystem = InMemoryFileSystem()
         try fileSystem.createDirectory(at: rootPath, withIntermediateDirectories: true)
         try fileSystem.writeFile(
-            path: rootPath.appendingPathComponent("CASPEC.md"),
+            path: rootPath.appendingPathComponent("AGENT_GUIDELINES.md"),
             contents: """
             Shared
-            <!-- CASPEC:codex -->
+            <!-- AGENT_ADAPTER:codex -->
             Codex Only
-            <!-- CASPEC -->
-            <!-- CASPEC:claude -->
+            <!-- AGENT_ADAPTER -->
+            <!-- AGENT_ADAPTER:claude -->
             Claude Only
-            <!-- CASPEC -->
+            <!-- AGENT_ADAPTER -->
             """
         )
 
         try fileSystem.writeFile(
-            path: rootPath.appendingPathComponent(".caspec/skills/test/SKILL.md"),
+            path: rootPath.appendingPathComponent("agent-adapter/skills/test/SKILL.md"),
             contents: "Skill Shared"
         )
         try fileSystem.writeFile(
-            path: rootPath.appendingPathComponent(".caspec/agents/reviewer/AGENT.md"),
+            path: rootPath.appendingPathComponent("agent-adapter/agents/reviewer/AGENT.md"),
             contents: "Agent Shared"
         )
 
-        let generator = CASpecGenerator(fileSystem: fileSystem)
+        let generator = AgentAdapterGenerator(fileSystem: fileSystem)
         try generator.generate(in: rootPath, tool: .claude)
 
         let claude = try fileSystem.readString(
@@ -110,23 +110,23 @@ struct CASpecGeneratorTests {
         ))
     }
 
-    @Test func throwsOnNestedCaspecBlocks() {
+    @Test func throwsOnNestedAgentAdapterBlocks() {
         let rootPath = URL(fileURLWithPath: "/root")
         let fileSystem = InMemoryFileSystem()
-        #expect(throws: CASpecGenerator.CASpecGeneratorError.self) {
+        #expect(throws: AgentAdapterGenerator.AgentAdapterGeneratorError.self) {
             try fileSystem.createDirectory(at: rootPath, withIntermediateDirectories: true)
             try fileSystem.writeFile(
-                path: rootPath.appendingPathComponent("CASPEC.md"),
+                path: rootPath.appendingPathComponent("AGENT_GUIDELINES.md"),
                 contents: """
-                <!-- CASPEC:foo -->
+                <!-- AGENT_ADAPTER:foo -->
                 Start Foo
-                <!-- CASPEC:bar -->
+                <!-- AGENT_ADAPTER:bar -->
                 Start Bar
-                <!-- CASPEC -->
+                <!-- AGENT_ADAPTER -->
                 """
             )
 
-            let generator = CASpecGenerator(fileSystem: fileSystem)
+            let generator = AgentAdapterGenerator(fileSystem: fileSystem)
             try generator.generate(in: rootPath, tool: .codex)
         }
     }

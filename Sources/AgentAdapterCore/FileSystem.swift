@@ -1,6 +1,6 @@
 import Foundation
 
-/// Abstraction over filesystem operations used by CASpec.
+/// Abstraction over filesystem operations used by AgentAdapter.
 public protocol FileSystem {
     /// Returns true if a filesystem entry exists at the provided path.
     func fileExists(atPath: String) -> Bool

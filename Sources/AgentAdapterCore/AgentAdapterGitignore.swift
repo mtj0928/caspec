@@ -1,14 +1,14 @@
 import Foundation
 
-/// Generates gitignore entries for CASpec outputs.
-public struct CASpecGitignore: Sendable {
+/// Generates gitignore entries for AgentAdapter outputs.
+public struct AgentAdapterGitignore: Sendable {
     /// Creates a gitignore generator.
     public init() {}
 
     /// Resolves tools for gitignore generation from targets and configuration.
     public static func toolsForGitignore(
         targetToolNames: [String],
-        config: CASpecConfiguration?,
+        config: AgentAdapterConfiguration?,
         defaults: [Tool] = Tool.defaults
     ) throws -> [Tool] {
         let toolsByName = config?.resolvedTools(defaults: defaults)
@@ -30,7 +30,10 @@ public struct CASpecGitignore: Sendable {
         }
 
         guard unknownToolNames.isEmpty else {
-            throw CASpecGitignoreError.unknownTools(unknown: unknownToolNames, available: Array(toolsByName.keys))
+            throw AgentAdapterGitignoreError.unknownTools(
+                unknown: unknownToolNames,
+                available: Array(toolsByName.keys)
+            )
         }
 
         return tools
@@ -69,9 +72,9 @@ public struct CASpecGitignore: Sendable {
     }
 }
 
-extension CASpecGitignore {
+extension AgentAdapterGitignore {
     /// Errors thrown while resolving tools for gitignore generation.
-    public enum CASpecGitignoreError: Error, LocalizedError {
+    public enum AgentAdapterGitignoreError: Error, LocalizedError {
         case unknownTools(unknown: [String], available: [String])
 
         public var errorDescription: String? {

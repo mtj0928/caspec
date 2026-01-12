@@ -1,24 +1,24 @@
 import ArgumentParser
-import CASpecCore
+import AgentAdapterCore
 import Foundation
 
 @main
-struct CASpec: AsyncParsableCommand {
+struct AgentAdapter: AsyncParsableCommand {
     static let configuration = CommandConfiguration(
-        commandName: "caspec",
+        commandName: "agent-adapter",
         subcommands: [Generate.self, GenerateGitignore.self],
         defaultSubcommand: Generate.self
     )
 
     struct Generate: AsyncParsableCommand {
-        @Argument(help: "Target tools to generate (codex, claude, or custom from .caspec.yml).")
+        @Argument(help: "Target tools to generate (codex, claude, or custom from .agent-adapter.yml).")
         var targets: [String] = []
 
         mutating func run() async throws {
             let fileSystem = FileManager.default
-            let generator = CASpecGenerator()
+            let generator = AgentAdapterGenerator()
             let rootPath = URL(fileURLWithPath: fileSystem.currentDirectoryPath)
-            let config = try CASpecConfiguration.load(from: rootPath, fileSystem: fileSystem)
+            let config = try AgentAdapterConfiguration.load(from: rootPath, fileSystem: fileSystem)
             let toolsByName = config?.resolvedTools() ?? Dictionary(uniqueKeysWithValues: Tool.defaults.map { ($0.name, $0) })
             guard !targets.isEmpty else {
                 let available = toolsByName.keys.sorted().joined(separator: ", ")
@@ -53,18 +53,18 @@ struct CASpec: AsyncParsableCommand {
             commandName: "generate-gitignore"
         )
 
-        @Argument(help: "Tool names to include alongside tools from .caspec.yml.")
+        @Argument(help: "Tool names to include alongside tools from .agent-adapter.yml.")
         var targets: [String] = []
 
         mutating func run() throws {
             let fileSystem = FileManager.default
             let rootPath = URL(fileURLWithPath: fileSystem.currentDirectoryPath)
-            let config = try CASpecConfiguration.load(from: rootPath, fileSystem: fileSystem)
-            let tools = try CASpecGitignore.toolsForGitignore(
+            let config = try AgentAdapterConfiguration.load(from: rootPath, fileSystem: fileSystem)
+            let tools = try AgentAdapterGitignore.toolsForGitignore(
                 targetToolNames: targets,
                 config: config
             )
-            print(CASpecGitignore.render(for: tools))
+            print(AgentAdapterGitignore.render(for: tools))
         }
     }
 }

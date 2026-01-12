@@ -1,7 +1,7 @@
 import Foundation
 
-/// Generates tool-specific documentation and configuration files from `CASPEC.md`.
-public struct CASpecGenerator {
+/// Generates tool-specific documentation and configuration files from `AGENT_GUIDELINES.md`.
+public struct AgentAdapterGenerator {
     private let fileSystem: FileSystem
 
     /// Creates a generator with the provided file system.
@@ -12,10 +12,10 @@ public struct CASpecGenerator {
 
     /// Generates tool-specific outputs in the given project root.
     /// - Parameters:
-    ///   - rootPath: The project root containing `CASPEC.md`.
+    ///   - rootPath: The project root containing `AGENT_GUIDELINES.md`.
     ///   - tool: The tool variant to generate.
     public func generate(in rootPath: URL, tool: Tool) throws {
-        let directory = CASpecDirectory(rootPath: rootPath)
+        let directory = AgentAdapterDirectory(rootPath: rootPath)
         let outputs = directory.outputs(for: tool)
         let specContents = try fileSystem.readString(at: directory.specFilePath, encoding: .utf8)
         let filteredSpec = try filterContents(specContents, tool: tool)
@@ -26,42 +26,42 @@ public struct CASpecGenerator {
     }
 }
 
-extension CASpecGenerator {
-    enum CASpecGeneratorError: Error, LocalizedError {
+extension AgentAdapterGenerator {
+    enum AgentAdapterGeneratorError: Error, LocalizedError {
         case nestedBlockStart(line: Int, openTool: String, nestedTool: String)
 
         var errorDescription: String? {
             switch self {
             case let .nestedBlockStart(line, openTool, nestedTool):
                 """
-                Nested CASPEC block start found at line \(line): \
+                Nested AGENT_ADAPTER block start found at line \(line): \
                 '\(nestedTool)' started before closing '\(openTool)'.
                 """
             }
         }
     }
 
-    fileprivate func writeSpecOutput(_ contents: String, to outputs: CASpecDirectory.ToolOutputs) throws {
+    fileprivate func writeSpecOutput(_ contents: String, to outputs: AgentAdapterDirectory.ToolOutputs) throws {
         try fileSystem.writeString(contents, to: outputs.specFilePath, atomically: true, encoding: .utf8)
     }
 
     fileprivate func generateSkills(
-        from directory: CASpecDirectory,
-        outputs: CASpecDirectory.ToolOutputs,
+        from directory: AgentAdapterDirectory,
+        outputs: AgentAdapterDirectory.ToolOutputs,
         tool: Tool
     ) throws {
-        let sourcePath = directory.caspecSkillsPath
+        let sourcePath = directory.agentAdapterSkillsPath
         guard fileSystem.fileExists(atPath: sourcePath.path),
               let destinationPath = outputs.skillsPath else { return }
         try copyDirectoryContents(from: sourcePath, to: destinationPath, tool: tool)
     }
 
     fileprivate func generateAgents(
-        from directory: CASpecDirectory,
-        outputs: CASpecDirectory.ToolOutputs,
+        from directory: AgentAdapterDirectory,
+        outputs: AgentAdapterDirectory.ToolOutputs,
         tool: Tool
     ) throws {
-        let sourcePath = directory.caspecAgentsPath
+        let sourcePath = directory.agentAdapterAgentsPath
         guard fileSystem.fileExists(atPath: sourcePath.path),
               let destinationPath = outputs.agentsPath else { return }
         try copyDirectoryContents(from: sourcePath, to: destinationPath, tool: tool)
@@ -115,9 +115,9 @@ extension CASpecGenerator {
 
         for (index, lineSubsequence) in lines.enumerated() {
             let line = String(lineSubsequence)
-            if let startTool = CASPECFormat.parseBlockStart(line: line) {
+            if let startTool = AgentAdapterFormat.parseBlockStart(line: line) {
                 if case let .toolSpecific(openTool) = state {
-                    throw CASpecGeneratorError.nestedBlockStart(
+                    throw AgentAdapterGeneratorError.nestedBlockStart(
                         line: index + 1,
                         openTool: openTool,
                         nestedTool: startTool
@@ -127,7 +127,7 @@ extension CASpecGenerator {
                 continue
             }
 
-            if CASPECFormat.isBlockEnd(line: line) {
+            if AgentAdapterFormat.isBlockEnd(line: line) {
                 state = .all
                 continue
             }
