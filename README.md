@@ -1,10 +1,10 @@
 # agent-adapter
 A CLI tool for managing agent documentation from a single source. 
-Write once in `AGENT_GUIDELINES.md`, then sync the right files for each tool so your guidance stays consistent and up to date.
+Write once in `AGENT_GUIDELINES.md`, then sync not only the tool-specific guidance files but also the skills and agents directories so everything stays consistent and up to date.
 
 ## How It Works
 - **Copy from a single source**: `AGENT_GUIDELINES.md` is the canonical document. agent-adapter reads it and syncs tool-specific files such as `AGENTS.md` and `CLAUDE.md`.
-- **Skills and agents**: Place reusable skills and (for Claude) agents in `agent-adapter/`. They are expanded into `.codex/` and `.claude/` as needed, preserving directory structure.
+- **Skills and agents are synced too**: Place reusable skills and (for Claude) agents in `agent-adapter/`. They are expanded into `.codex/` and `.claude/` as needed, preserving directory structure so the full skill/agent sets stay in sync.
 - **Use the CLI**: Run the generator for each target tool, including any custom tools from `.agent-adapter.yml`.
 
 ```bash
@@ -102,4 +102,3 @@ nest install mtj0928/agent-adapter
 swift build -c release
 cp .build/release/agent-adapter /usr/local/bin/
 ```
-
