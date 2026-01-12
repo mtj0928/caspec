@@ -7,11 +7,12 @@ Write once in `AGENT_GUIDELINES.md`, then generate not only the tool-specific gu
 - **Skills and agents are generated too**: Place reusable skills and (for Claude) agents in `.agent-adapter/`. They are expanded into `.codex/` and `.claude/` as needed, preserving directory structure so the full skill/agent sets stay aligned.
 - **Use the CLI**: Run the generator for each target tool, including any custom tools from `.agent-adapter.yml`.
 
+## Usages
 ```bash
-# Generate Codex outputs
+# Generate `AGENTS.md` and `.codex/skills` for Codex
 agent-adapter generate-config codex
 
-# Generate Claude Code outputs
+# Generate `CLAUDE.md` and `.claude/skills` and `.claude/agents` from Claude Code.
 agent-adapter generate-config claude
 
 # Generate a custom tool from .agent-adapter.yml
@@ -21,12 +22,38 @@ agent-adapter generate-config custom_agent
 agent-adapter generate-config claude codex
 ```
 
-## Supported Agents
-agent-adapter currently supports Codex and Claude Code. You can also define custom tools in `.agent-adapter.yml`.
+## Generate Configurations
+agent-adapter can generate configurations for specific tools.
 
-### AGENT_GUIDELINES.md Syntax
-`AGENT_GUIDELINES.md` supports simple conditional blocks so you can include tool-specific content without duplicating the whole file.
+The followings are the original files and agent-adapter can generate configurations for a specific tool.
 
+- AGENT_GUIDELINES.md: A guideline for coding agents. This will be copied as an instruction file such as `AGENTS.md` and `CLAUDE.md`
+- .agent-adapter.yml: A setting file of agent-adapter. Edit this file when you want to custom tool.
+- .agent-adapter/: A directory where contains skills and agents directories.
+
+This is a basic directory structure.
+
+```
+.
+├── AGENT_GUIDELINES.md
+├── .agent-adapter.yml
+└── .agent-adapter/
+    ├── skills/
+    │   ├── <SkillName>/
+    │   │   └── SKILL.md
+    │   └── <AnotherSkill>/
+    │       └── SKILL.md
+    └── agents/
+        └── <AgentName>/
+            └── AGENT.md
+```
+
+### Conditional Blocks
+agent-adapter supports simple conditional blocks so you can include tool-specific content without duplicating the whole file.
+
+Use `<!-- AGENT_ADAPTER:{TOOL} -->` to start a block (`codex`, `claude`, or any custom tool name) and `<!-- AGENT_ADAPTER -->` to end it. Content outside the blocks is shared across all outputs.
+
+This is an example of AGENT_GUIDELINES.md.
 ```markdown
 # Project Title
 
@@ -41,23 +68,24 @@ This text appears only in CLAUDE.md.
 <!-- AGENT_ADAPTER -->
 ```
 
-Use `<!-- AGENT_ADAPTER:{TOOL} -->` to start a block (`codex`, `claude`, or any custom tool name) and `<!-- AGENT_ADAPTER -->` to end it. Content outside the blocks is shared across all outputs.
+agent-adapter supports this syntax on not only AGENT_GUIDELINES.md, but also all files.
+So, you can use this syntax on skills and agents.
 
-### Custom Tools via .agent-adapter.yml
-You can define or override tools in `.agent-adapter.yml`. When a tool name matches a default, it overrides the defaults.
+### Custom Tools
+agent-adapter supports only Codex and Claude Code for now, but you can define or override tools in `.agent-adapter.yml`.
 
 ```yaml
 tools:
-  - name: codex
-    guidelinesFile: CUSTOM.md
-    skillsDirectory: .custom/skills
   - name: custom_agent
     guidelinesFile: CUSTOM_AGENT.md
     skillsDirectory: .custom_agent/skills
     agentsDirectory: .custom_agent/agents
+  - name: another_agent
+    guidelinesFile: ANOTHER_AGENT.md
+    skillsDirectory: .another_agent/skills
 ```
 
-Fields:
+Each element of `tools` can have the following properties.
 - `name`: Tool name used on the CLI and in `<!-- AGENT_ADAPTER:{TOOL} -->` blocks
 - `guidelinesFile`: Synced file name
 - `skillsDirectory`: Destination for expanded skills (optional)
