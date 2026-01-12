@@ -39,8 +39,8 @@ jobs:
       - name: Package binary
         run: |
           BIN_PATH="${{ steps.build.outputs.bin_path }}"
-          ASSET_NAME="caspec-${{ matrix.asset_suffix }}.tar.gz"
-          tar -czf "$ASSET_NAME" -C "$BIN_PATH" caspec
+          ASSET_NAME="agent-adapter-${{ matrix.asset_suffix }}.tar.gz"
+          tar -czf "$ASSET_NAME" -C "$BIN_PATH" agent-adapter
           echo "asset_name=${ASSET_NAME}" >> "$GITHUB_OUTPUT"
         id: package
       - name: Upload binary to release

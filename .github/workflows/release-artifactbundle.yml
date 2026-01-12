@@ -24,7 +24,7 @@ jobs:
         id: artifactbundle
         uses: giginet/github-action-artifactbundle@v2
         with:
-          artifact_name: caspec
+          artifact_name: agent-adapter
       - name: Upload artifact bundle to release
         run: |
           BODY="${{ github.event.release.body }}"
