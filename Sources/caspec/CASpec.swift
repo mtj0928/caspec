@@ -11,8 +11,8 @@ struct CASpec: AsyncParsableCommand {
     )
 
     struct Generate: AsyncParsableCommand {
-        @Argument(help: "Target tool to generate (codex, claude, or custom from .caspec.yml).")
-        var target: String
+        @Argument(help: "Target tools to generate (codex, claude, or custom from .caspec.yml).")
+        var targets: [String] = []
 
         mutating func run() async throws {
             let fileSystem = FileManager.default
@@ -20,11 +20,31 @@ struct CASpec: AsyncParsableCommand {
             let rootPath = URL(fileURLWithPath: fileSystem.currentDirectoryPath)
             let config = try CASpecConfiguration.load(from: rootPath, fileSystem: fileSystem)
             let toolsByName = config?.resolvedTools() ?? Dictionary(uniqueKeysWithValues: Tool.defaults.map { ($0.name, $0) })
-            guard let tool = toolsByName[target] else {
+            guard !targets.isEmpty else {
                 let available = toolsByName.keys.sorted().joined(separator: ", ")
-                throw ValidationError("Unknown tool '\(target)'. Available tools: \(available)")
+                throw ValidationError("Specify at least one tool. Available tools: \(available)")
             }
-            try generator.generate(in: rootPath, tool: tool)
+
+            var unknownTargets: [String] = []
+            var tools: [Tool] = []
+
+            for target in targets {
+                if let tool = toolsByName[target] {
+                    tools.append(tool)
+                } else {
+                    unknownTargets.append(target)
+                }
+            }
+
+            if !unknownTargets.isEmpty {
+                let available = toolsByName.keys.sorted().joined(separator: ", ")
+                let unknown = unknownTargets.joined(separator: ", ")
+                throw ValidationError("Unknown tool(s) '\(unknown)'. Available tools: \(available)")
+            }
+
+            for tool in tools {
+                try generator.generate(in: rootPath, tool: tool)
+            }
         }
     }
 

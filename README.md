@@ -33,6 +33,9 @@ caspec claude
 
 # Generate a custom tool from .caspec.yml
 caspec custom_agent
+
+# Generate multiple tools at once
+caspec claude codex
 ```
 
 ### CASPEC.md Syntax
