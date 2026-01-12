@@ -12,11 +12,11 @@ struct CASpecConfigurationTests {
             tools:
               - name: codex
                 outputFileName: CUSTOM.md
-                skillsFolderName: .custom/skills
+                skillsDirectoryName: .custom/skills
               - name: cortex
                 outputFileName: CORTEX.md
-                skillsFolderName: .cortex/skills
-                subagentsFolderName: .cortex/subagents
+                skillsDirectoryName: .cortex/skills
+                subagentsDirectoryName: .cortex/subagents
             """,
             to: rootPath.appendingPathComponent(".caspec.yml"),
             atomically: true,
@@ -29,11 +29,11 @@ struct CASpecConfigurationTests {
         #expect(resolved["claude"] != nil)
         let codex = try #require(resolved["codex"])
         #expect(codex.outputFileName == "CUSTOM.md")
-        #expect(codex.skillsFolderName == ".custom/skills")
-        #expect(codex.subagentsFolderName == nil)
+        #expect(codex.skillsDirectoryName == ".custom/skills")
+        #expect(codex.subagentsDirectoryName == nil)
 
         let cortex = try #require(resolved["cortex"])
         #expect(cortex.outputFileName == "CORTEX.md")
-        #expect(cortex.subagentsFolderName == ".cortex/subagents")
+        #expect(cortex.subagentsDirectoryName == ".cortex/subagents")
     }
 }

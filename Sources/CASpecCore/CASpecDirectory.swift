@@ -59,12 +59,12 @@ extension CASpecDirectory {
 
         /// The output path for generated skills, if applicable.
         public var skillsPath: URL? {
-            tool.skillsFolderName.map { rootPath.appendingPathComponent($0) }
+            tool.skillsDirectoryName.map { rootPath.appendingPathComponent($0) }
         }
 
         /// The output path for generated subagents, if applicable.
         public var subagentsPath: URL? {
-            tool.subagentsFolderName.map { rootPath.appendingPathComponent($0) }
+            tool.subagentsDirectoryName.map { rootPath.appendingPathComponent($0) }
         }
     }
 }

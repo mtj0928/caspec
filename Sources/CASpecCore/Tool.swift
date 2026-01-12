@@ -6,22 +6,22 @@ public struct Tool: Hashable, Sendable, Codable {
     /// Output spec file name (e.g. "AGENTS.md").
     public let outputFileName: String
 
-    /// Destination folder for expanded skills.
-    public let skillsFolderName: String?
+    /// Destination directory for expanded skills.
+    public let skillsDirectoryName: String?
 
-    /// Destination folder for expanded subagents.
-    public let subagentsFolderName: String?
+    /// Destination directory for expanded subagents.
+    public let subagentsDirectoryName: String?
 
     public init(
         name: String,
         outputFileName: String,
-        skillsFolderName: String?,
-        subagentsFolderName: String?
+        skillsDirectoryName: String?,
+        subagentsDirectoryName: String?
     ) {
         self.name = name
         self.outputFileName = outputFileName
-        self.skillsFolderName = skillsFolderName
-        self.subagentsFolderName = subagentsFolderName
+        self.skillsDirectoryName = skillsDirectoryName
+        self.subagentsDirectoryName = subagentsDirectoryName
     }
 }
 
@@ -30,16 +30,16 @@ extension Tool {
     public static let codex = Tool(
         name: "codex",
         outputFileName: "AGENTS.md",
-        skillsFolderName: ".codex/skills",
-        subagentsFolderName: nil
+        skillsDirectoryName: ".codex/skills",
+        subagentsDirectoryName: nil
     )
 
     /// Claude Code output (`CLAUDE.md` and `.claude/`).
     public static let claude = Tool(
         name: "claude",
         outputFileName: "CLAUDE.md",
-        skillsFolderName: ".claude/skills",
-        subagentsFolderName: ".claude/subagents"
+        skillsDirectoryName: ".claude/skills",
+        subagentsDirectoryName: ".claude/subagents"
     )
 
     /// Default tools supported by CASpec.

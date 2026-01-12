@@ -54,15 +54,15 @@ You can define or override tools in `.caspec.yml`. When a tool name matches a de
 tools:
   - name: codex
     outputFileName: CUSTOM.md
-    skillsFolderName: .custom/skills
+    skillsDirectoryName: .custom/skills
   - name: cortex
     outputFileName: CORTEX.md
-    skillsFolderName: .cortex/skills
-    subagentsFolderName: .cortex/subagents
+    skillsDirectoryName: .cortex/skills
+    subagentsDirectoryName: .cortex/subagents
 ```
 
 Fields:
 - `name`: Tool name used on the CLI and in `<!-- CASPEC:{TOOL} -->` blocks
 - `outputFileName`: Generated file name
-- `skillsFolderName`: Destination for expanded skills (optional)
-- `subagentsFolderName`: Destination for expanded subagents (optional)
+- `skillsDirectoryName`: Destination for expanded skills (optional)
+- `subagentsDirectoryName`: Destination for expanded subagents (optional)
