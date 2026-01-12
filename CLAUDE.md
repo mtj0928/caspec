@@ -1,14 +1,14 @@
-# CASpec (Coding Agent Spec)
+# caspec (Coding Agent Spec)
 
-CASpec is a CLI tool that unifies documentation management across different AI coding agent tools (Claude Code, Codex, etc.). It allows you to maintain a single source of truth (`CASPEC.md`) and automatically generates tool-specific documentation and configurations.
+caspec is a CLI tool that unifies documentation management across different AI coding agent tools (Claude Code, Codex, etc.). It allows you to maintain a single source of truth (`CASPEC.md`) and automatically generates tool-specific documentation and configurations.
 
-## Why CASpec?
+## Why caspec?
 
 Different AI coding agent tools use different documentation formats:
 - **Claude Code**: Uses `CLAUDE.md` for project guidance, supports skills and subagents
 - **Codex**: Uses `AGENTS.md` for agent guidance, supports skills only
 
-When using multiple tools on the same project, you end up duplicating content across multiple files. CASpec solves this by letting you write once and generate for all tools.
+When using multiple tools on the same project, you end up duplicating content across multiple files. caspec solves this by letting you write once and generate for all tools.
 
 ## How It Works
 
@@ -39,7 +39,7 @@ This content only appears in CLAUDE.md (Claude Code)
 
 ### 2. Skills and Subagents Auto-Expansion
 
-Place your skills and subagents in `.caspec/` directory. CASpec automatically expands them to the appropriate locations:
+Place your skills and subagents in `.caspec/` directory. caspec automatically expands them to the appropriate locations:
 
 ```
 .caspec/
