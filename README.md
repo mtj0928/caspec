@@ -10,12 +10,12 @@ swift build
 ```
 
 ## Supported Agents
-caspec currently supports Codex and Claude Code.
+caspec currently supports Codex and Claude Code. You can also define custom tools in `.caspec.yml`.
 
 ## How It Works
 - **Copy from a single source**: `CASPEC.md` is the canonical document. caspec reads it and generates tool-specific files such as `AGENTS.md` and `CLAUDE.md`.
 - **Skills and subagents**: Place reusable skills and (for Claude) subagents in `.caspec/`. They are expanded into `.codex/` and `.claude/` as needed, preserving directory structure.
-- **Use the CLI**: Run the generator for each target tool.
+- **Use the CLI**: Run the generator for each target tool, including any custom tools from `.caspec.yml`.
 
 ```bash
 # Generate Codex outputs
@@ -23,6 +23,9 @@ caspec codex
 
 # Generate Claude Code outputs
 caspec claude
+
+# Generate a custom tool from .caspec.yml
+caspec cortex
 ```
 
 ### CASPEC.md Syntax
@@ -42,4 +45,24 @@ This text appears only in CLAUDE.md.
 <!-- CASPEC -->
 ```
 
-Use `<!-- CASPEC:{TOOL} -->` to start a block (`codex` or `claude`) and `<!-- CASPEC -->` to end it. Content outside the blocks is shared across all outputs.
+Use `<!-- CASPEC:{TOOL} -->` to start a block (`codex`, `claude`, or any custom tool name) and `<!-- CASPEC -->` to end it. Content outside the blocks is shared across all outputs.
+
+### Custom Tools via .caspec.yml
+You can define or override tools in `.caspec.yml`. When a tool name matches a default, it overrides the defaults.
+
+```yaml
+tools:
+  - name: codex
+    outputFileName: CUSTOM.md
+    skillsFolderName: .custom/skills
+  - name: cortex
+    outputFileName: CORTEX.md
+    skillsFolderName: .cortex/skills
+    subagentsFolderName: .cortex/subagents
+```
+
+Fields:
+- `name`: Tool name used on the CLI and in `<!-- CASPEC:{TOOL} -->` blocks
+- `outputFileName`: Generated file name
+- `skillsFolderName`: Destination for expanded skills (optional)
+- `subagentsFolderName`: Destination for expanded subagents (optional)

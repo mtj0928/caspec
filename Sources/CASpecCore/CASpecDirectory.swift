@@ -16,6 +16,11 @@ public struct CASpecDirectory: Sendable {
         rootPath.appendingPathComponent("CASPEC.md")
     }
 
+    /// The path to the optional configuration file (`.caspec.yml`).
+    public var configFilePath: URL {
+        rootPath.appendingPathComponent(CASpecConfiguration.fileName)
+    }
+
     /// The path to the `.caspec` source directory.
     public var caspecRootPath: URL {
         rootPath.appendingPathComponent(".caspec")

@@ -1,5 +1,5 @@
 /// Supported tools for CASpec generation.
-public struct Tool: Hashable, Sendable {
+public struct Tool: Hashable, Sendable, Codable {
     /// Tool name used for CASPEC block filtering (e.g. "codex").
     public let name: String
 
@@ -41,4 +41,10 @@ extension Tool {
         skillsFolderName: ".claude/skills",
         subagentsFolderName: ".claude/subagents"
     )
+
+    /// Default tools supported by CASpec.
+    public static let defaults: [Tool] = [
+        .codex,
+        .claude
+    ]
 }

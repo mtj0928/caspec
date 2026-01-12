@@ -33,7 +33,7 @@ This content only appears in CLAUDE.md (Claude Code)
 **Syntax Rules**:
 - `<!-- CASPEC:{TOOL} -->` starts a tool-specific block
 - `<!-- CASPEC -->` ends a tool-specific block
-- `{TOOL}` can be `codex` or `claude`
+- `{TOOL}` can be `codex`, `claude`, or any custom tool name defined in `.caspec.yml`
 - Content outside blocks appears in all generated files
 - Tool-specific blocks only appear in their respective outputs
 
@@ -72,7 +72,30 @@ $ caspec codex
 
 # Generate for Claude Code
 $ caspec claude
+
+# Generate for a custom tool from .caspec.yml
+$ caspec cortex
 ```
+
+### Custom Tools via .caspec.yml
+Define or override tools in `.caspec.yml`. When a tool name matches a default, it overrides the defaults.
+
+```yaml
+tools:
+  - name: codex
+    outputFileName: CUSTOM.md
+    skillsFolderName: .custom/skills
+  - name: cortex
+    outputFileName: CORTEX.md
+    skillsFolderName: .cortex/skills
+    subagentsFolderName: .cortex/subagents
+```
+
+Fields:
+- `name`: Tool name used on the CLI and in `<!-- CASPEC:{TOOL} -->` blocks
+- `outputFileName`: Generated file name
+- `skillsFolderName`: Destination for expanded skills (optional)
+- `subagentsFolderName`: Destination for expanded subagents (optional)
 
 ### Generated Files
 
