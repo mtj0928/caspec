@@ -16,7 +16,7 @@ jobs:
       matrix:
         include:
           - name: macOS (universal)
-            os: macos-14
+            os: macos-26
             asset_suffix: macos-universal
             build_args: "--arch arm64 --arch x86_64"
           - name: Linux (x86_64)
