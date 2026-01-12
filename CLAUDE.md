@@ -1,6 +1,6 @@
 # agent-adapter
 
-agent-adapter is a CLI tool that unifies documentation management across different AI coding agent tools (Claude Code, Codex, etc.). It allows you to maintain a single source of truth (`AGENT_GUIDELINES.md`) and automatically syncs tool-specific documentation and configurations.
+agent-adapter is a CLI tool that unifies documentation management across different AI coding agent tools (Claude Code, Codex, etc.). It allows you to maintain a single source of truth (`AGENT_GUIDELINES.md`) and automatically generates tool-specific documentation and configurations.
 
 ## Why agent-adapter?
 
@@ -8,7 +8,7 @@ Different AI coding agent tools use different documentation formats:
 - **Claude Code**: Uses `CLAUDE.md` for project guidance, supports skills and agents
 - **Codex**: Uses `AGENTS.md` for agent guidance, supports skills only
 
-When using multiple tools on the same project, you end up duplicating content across multiple files. agent-adapter solves this by letting you write once and sync for all tools.
+When using multiple tools on the same project, you end up duplicating content across multiple files. agent-adapter solves this by letting you write once and generate for all tools.
 
 ## How It Works
 
@@ -19,7 +19,7 @@ Write your project documentation in `AGENT_GUIDELINES.md` at your project root. 
 ```markdown
 # My Project
 
-This content appears in all synced files.
+This content appears in all generated files.
 
 <!-- AGENT_ADAPTER:codex -->
 This content only appears in AGENTS.md (Codex)
@@ -34,7 +34,7 @@ This content only appears in CLAUDE.md (Claude Code)
 - `<!-- AGENT_ADAPTER:{TOOL} -->` starts a tool-specific block
 - `<!-- AGENT_ADAPTER -->` ends a tool-specific block
 - `{TOOL}` can be `codex`, `claude`, or any custom tool name defined in `.agent-adapter.yml`
-- Content outside blocks appears in all synced files
+- Content outside blocks appears in all generated files
 - Tool-specific blocks only appear in their respective outputs
 
 ### 2. Skills and Agents Auto-Expansion
@@ -67,14 +67,14 @@ All files within skill/agent directories are copied, preserving the directory st
 ## CLI Usage
 
 ```bash
-# Sync config for Codex
-$ agent-adapter sync-config codex
+# Generate config for Codex
+$ agent-adapter generate-config codex
 
-# Sync config for Claude Code
-$ agent-adapter sync-config claude
+# Generate config for Claude Code
+$ agent-adapter generate-config claude
 
-# Sync config for a custom tool from .agent-adapter.yml
-$ agent-adapter sync-config custom_agent
+# Generate config for a custom tool from .agent-adapter.yml
+$ agent-adapter generate-config custom_agent
 
 # Output gitignore entries for specific tools
 $ agent-adapter generate-gitignore codex claude
@@ -102,11 +102,11 @@ Fields:
 
 ### Synced Files
 
-**For Codex** (`agent-adapter codex`):
+**For Codex** (`agent-adapter generate-config codex`):
 - `AGENTS.md` (from AGENT_GUIDELINES.md, with codex-specific blocks)
 - `.codex/skills/` (expanded from `.agent-adapter/skills/`)
 
-**For Claude Code** (`agent-adapter claude`):
+**For Claude Code** (`agent-adapter generate-config claude`):
 - `CLAUDE.md` (from AGENT_GUIDELINES.md, with claude-specific blocks)
 - `.claude/skills/` (expanded from `.agent-adapter/skills/`)
 - `.claude/agents/` (expanded from `.agent-adapter/agents/`)
@@ -186,4 +186,4 @@ swift test
 
 ---
 
-**Important**: Always edit `AGENT_GUIDELINES.md` and files in `.agent-adapter/`, not the synced files. Run `agent-adapter` again after making changes to resync the outputs.
+**Important**: Always edit `AGENT_GUIDELINES.md` and files in `.agent-adapter/`, not the generated files. Run `agent-adapter` again after making changes to regenerate the outputs.

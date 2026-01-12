@@ -1,24 +1,24 @@
 # agent-adapter
 A CLI tool for managing agent documentation from a single source. 
-Write once in `AGENT_GUIDELINES.md`, then sync not only the tool-specific guidance files but also the skills and agents directories so everything stays consistent and up to date.
+Write once in `AGENT_GUIDELINES.md`, then generate not only the tool-specific guidance files but also the skills and agents directories so everything stays consistent and up to date.
 
 ## How It Works
-- **Copy from a single source**: `AGENT_GUIDELINES.md` is the canonical document. agent-adapter reads it and syncs tool-specific files such as `AGENTS.md` and `CLAUDE.md`.
-- **Skills and agents are synced too**: Place reusable skills and (for Claude) agents in `.agent-adapter/`. They are expanded into `.codex/` and `.claude/` as needed, preserving directory structure so the full skill/agent sets stay in sync.
+- **Copy from a single source**: `AGENT_GUIDELINES.md` is the canonical document. agent-adapter reads it and generates tool-specific files such as `AGENTS.md` and `CLAUDE.md`.
+- **Skills and agents are generated too**: Place reusable skills and (for Claude) agents in `.agent-adapter/`. They are expanded into `.codex/` and `.claude/` as needed, preserving directory structure so the full skill/agent sets stay aligned.
 - **Use the CLI**: Run the generator for each target tool, including any custom tools from `.agent-adapter.yml`.
 
 ```bash
-# Sync Codex outputs
-agent-adapter sync-config codex
+# Generate Codex outputs
+agent-adapter generate-config codex
 
-# Sync Claude Code outputs
-agent-adapter sync-config claude
+# Generate Claude Code outputs
+agent-adapter generate-config claude
 
-# Sync a custom tool from .agent-adapter.yml
-agent-adapter sync-config custom_agent
+# Generate a custom tool from .agent-adapter.yml
+agent-adapter generate-config custom_agent
 
-# Sync multiple tools at once
-agent-adapter sync-config claude codex
+# Generate multiple tools at once
+agent-adapter generate-config claude codex
 ```
 
 ## Supported Agents
@@ -30,7 +30,7 @@ agent-adapter currently supports Codex and Claude Code. You can also define cust
 ```markdown
 # Project Title
 
-This text appears in all synced files.
+This text appears in all generated files.
 
 <!-- AGENT_ADAPTER:codex -->
 This text appears only in AGENTS.md.

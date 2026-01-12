@@ -6,15 +6,15 @@ import Foundation
 struct AgentAdapter: AsyncParsableCommand {
     static let configuration = CommandConfiguration(
         commandName: "agent-adapter",
-        subcommands: [SyncConfig.self, GenerateGitignore.self]
+        subcommands: [GenerateConfig.self, GenerateGitignore.self]
     )
 
-    struct SyncConfig: AsyncParsableCommand {
+    struct GenerateConfig: AsyncParsableCommand {
         static let configuration = CommandConfiguration(
-            commandName: "sync-config"
+            commandName: "generate-config"
         )
 
-        @Argument(help: "Target tools to sync config for (codex, claude, or custom from .agent-adapter.yml).")
+        @Argument(help: "Target tools to generate config for (codex, claude, or custom from .agent-adapter.yml).")
         var targets: [String] = []
 
         mutating func run() async throws {
