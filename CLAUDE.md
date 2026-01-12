@@ -1,20 +1,20 @@
 # agent-adapter
 
-agent-adapter is a CLI tool that unifies documentation management across different AI coding agent tools (Claude Code, Codex, etc.). It allows you to maintain a single source of truth (`AGENT_GUIDELINES.md`) and automatically generates tool-specific documentation and configurations.
+agent-adapter is a CLI tool that unifies documentation management across different AI coding agents (Claude Code, Codex, etc.). It allows you to maintain a single source of truth (`AGENT_GUIDELINES.md`) and automatically generates agent-specific documentation and configurations.
 
 ## Why agent-adapter?
 
-Different AI coding agent tools use different documentation formats:
+Different AI coding agents use different documentation formats:
 - **Claude Code**: Uses `CLAUDE.md` for project guidance, supports skills and agents
 - **Codex**: Uses `AGENTS.md` for agent guidance, supports skills only
 
-When using multiple tools on the same project, you end up duplicating content across multiple files. agent-adapter solves this by letting you write once and generate for all tools.
+When using multiple agents on the same project, you end up duplicating content across multiple files. agent-adapter solves this by letting you write once and generate for all agents.
 
 ## How It Works
 
 ### 1. Single Source of Truth: AGENT_GUIDELINES.md
 
-Write your project documentation in `AGENT_GUIDELINES.md` at your project root. Use conditional blocks to specify tool-specific content:
+Write your project documentation in `AGENT_GUIDELINES.md` at your project root. Use conditional blocks to specify agent-specific content:
 
 ```markdown
 # My Project
@@ -31,11 +31,11 @@ This content only appears in CLAUDE.md (Claude Code)
 ```
 
 **Syntax Rules**:
-- `<!-- AGENT_ADAPTER:{TOOL} -->` starts a tool-specific block
-- `<!-- AGENT_ADAPTER -->` ends a tool-specific block
-- `{TOOL}` can be `codex`, `claude`, or any custom tool name defined in `.agent-adapter.yml`
+- `<!-- AGENT_ADAPTER:{AGENT} -->` starts an agent-specific block
+- `<!-- AGENT_ADAPTER -->` ends an agent-specific block
+- `{AGENT}` can be `codex`, `claude`, or any custom agent name defined in `.agent-adapter.yml`
 - Content outside blocks appears in all generated files
-- Tool-specific blocks only appear in their respective outputs
+- Agent-specific blocks only appear in their respective outputs
 
 ### 2. Skills and Agents Auto-Expansion
 
@@ -60,7 +60,7 @@ Place your skills and agents in `.agent-adapter/` directory. agent-adapter autom
 - `.agent-adapter/skills/MySkill/` → `.claude/skills/MySkill/` (for Claude Code)
 - `.agent-adapter/agents/MyAgent/` → `.claude/agents/MyAgent/` (Claude Code only)
 
-All files within skill/agent directories are copied, preserving the directory structure. You can also use `<!-- AGENT_ADAPTER:{TOOL} -->` syntax inside these files.
+All files within skill/agent directories are copied, preserving the directory structure. You can also use `<!-- AGENT_ADAPTER:{AGENT} -->` syntax inside these files.
 
 **Note**: Agents are Claude Code-specific, so they're only expanded for Claude Code, not Codex.
 
@@ -73,18 +73,18 @@ $ agent-adapter generate-config codex
 # Generate config for Claude Code
 $ agent-adapter generate-config claude
 
-# Generate config for a custom tool from .agent-adapter.yml
+# Generate config for a custom agent from .agent-adapter.yml
 $ agent-adapter generate-config custom_agent
 
-# Output gitignore entries for specific tools
+# Output gitignore entries for specific agents
 $ agent-adapter generate-gitignore codex claude
 ```
 
-### Custom Tools via .agent-adapter.yml
-Define or override tools in `.agent-adapter.yml`. When a tool name matches a default, it overrides the defaults.
+### Custom Agents via .agent-adapter.yml
+Define or override agents in `.agent-adapter.yml`. When an agent name matches a default, it overrides the defaults.
 
 ```yaml
-tools:
+agents:
   - name: codex
     guidelinesFile: CUSTOM.md
     skillsDirectory: .custom/skills
@@ -95,7 +95,7 @@ tools:
 ```
 
 Fields:
-- `name`: Tool name used on the CLI and in `<!-- AGENT_ADAPTER:{TOOL} -->` blocks
+- `name`: Agent name used on the CLI and in `<!-- AGENT_ADAPTER:{AGENT} -->` blocks
 - `guidelinesFile`: Synced file name
 - `skillsDirectory`: Destination for expanded skills (optional)
 - `agentsDirectory`: Destination for expanded agents (optional)

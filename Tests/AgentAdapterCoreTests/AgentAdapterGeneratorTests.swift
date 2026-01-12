@@ -35,7 +35,7 @@ struct AgentAdapterGeneratorTests {
         )
 
         let generator = AgentAdapterGenerator(fileSystem: fileSystem)
-        try generator.generate(in: rootPath, tool: .codex)
+        try generator.generate(in: rootPath, agent: .codex)
 
         let agents = try fileSystem.readString(
             at: rootPath.appendingPathComponent("AGENTS.md"),
@@ -90,7 +90,7 @@ struct AgentAdapterGeneratorTests {
         )
 
         let generator = AgentAdapterGenerator(fileSystem: fileSystem)
-        try generator.generate(in: rootPath, tool: .claude)
+        try generator.generate(in: rootPath, agent: .claude)
 
         let claude = try fileSystem.readString(
             at: rootPath.appendingPathComponent("CLAUDE.md"),
@@ -127,7 +127,7 @@ struct AgentAdapterGeneratorTests {
             )
 
             let generator = AgentAdapterGenerator(fileSystem: fileSystem)
-            try generator.generate(in: rootPath, tool: .codex)
+            try generator.generate(in: rootPath, agent: .codex)
         }
     }
 }
